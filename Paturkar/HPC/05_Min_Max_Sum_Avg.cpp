@@ -72,7 +72,10 @@ int parallelSum(vector<int> vec)
 float parallelAverage(vector<int> vec)
 {
     auto start = high_resolution_clock::now();
-    int sum = parallelSum(vec); // Note: This already prints timing for sum
+    //int sum = parallelSum(vec);
+    int sum = 0; // Note: This already prints timing for sum
+#pragma omp parallel for reduction(+ : sum)
+    for (int i = 0; i < vec.size(); ++i) sum += vec[i];
     float avg = float(sum) / vec.size();
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<milliseconds>(end - start).count();
